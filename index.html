@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>document.documentElement.classList.add('has-js');</script>
 <title>SEPAK GAMES ─ セパタクロー ゲームポータル</title>
 <meta name="description" content="セパタクローを、上質な体験へ。ブラウザで愉しむセパタクロー対戦ゲームと、勝利で集めるコレクション。SEPAK GAMES.">
 <!-- 検索エンジンには登録しない（リンクを知っている人だけ閲覧可） -->
@@ -346,6 +347,26 @@
       success.hidden = false;
     });
   }
+
+  // ── スクロール演出：画面に入った要素をゆっくり“ふわっと再生” ──
+  // ※ 要素は最初から見えている（フェイルオープン）。検知できたら animate-in を付けるだけ。
+  const revealSel = '.eyebrow, .headline, .section-lead, .news-item, .concept-figure, .pillar, .menu-item, .highlight, .char-card, .collection-note, .info-table, .contact-form';
+  const revealEls = document.querySelectorAll(revealSel);
+  revealEls.forEach(el => {
+    if (el.matches('.news-item, .pillar, .menu-item, .char-card') && el.parentElement) {
+      const idx = Array.prototype.indexOf.call(el.parentElement.children, el);
+      el.style.animationDelay = Math.min(idx, 5) * 160 + 'ms';
+    }
+  });
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('animate-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
+    revealEls.forEach(el => io.observe(el));
+  }
+  // 非対応環境では最初から見えているのでOK
 })();
 </script>
 

@@ -402,6 +402,17 @@ ul { list-style: none; }
 .footer-rule { width: 60px; height: 1px; background: var(--line-light); margin: 0 auto 26px; }
 .copyright { font-family: var(--serif-en); font-size: 12px; letter-spacing: 0.14em; color: #6a6154; }
 
+/* ══════════ スクロール演出（ゆっくりフェードアップ） ══════════
+   フェイルオープン設計：要素は最初から見える。画面に入ると animate-in が付いて再生。 */
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: none; }
+}
+.has-js .animate-in { animation: revealUp 2.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .has-js .animate-in { animation: none; }
+}
+
 /* ══════════════════════════════════════════════
    レスポンシブ
    ══════════════════════════════════════════════ */
